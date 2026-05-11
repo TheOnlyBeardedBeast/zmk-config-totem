@@ -17,7 +17,7 @@ features:
   - studio # Remove this line if your keyboard will not support ZMK Studio
 
 requires:
-  - seeeduino_xiao
+  - seeeduino_xiao_ble
 
 siblings:
   - totem_left
