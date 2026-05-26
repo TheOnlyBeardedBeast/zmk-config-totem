@@ -8,6 +8,13 @@
 //                                                             ▀▀▀▀▀    █  █  █      ▀
 //                                                                      ▀  ▀  ▀
 //
+//                                                 ▗▄▄▄▖▗▖  ▗▖ ▗▄▄▖▗▄▄▖  ▗▄▖ ▗▖  ▗▖▗▖  ▗▖▗▄▄▄▖▗▄▄▖ 
+//                                                 ▐▌   ▐▛▚▖▐▌▐▌   ▐▌ ▐▌▐▌ ▐▌▐▛▚▞▜▌▐▛▚▞▜▌▐▌   ▐▌ ▐▌
+//                                                 ▐▛▀▀▘▐▌ ▝▜▌▐▌▝▜▌▐▛▀▚▖▐▛▀▜▌▐▌  ▐▌▐▌  ▐▌▐▛▀▀▘▐▛▀▚▖
+//                                                 ▐▙▄▄▖▐▌  ▐▌▝▚▄▞▘▐▌ ▐▌▐▌ ▐▌▐▌  ▐▌▐▌  ▐▌▐▙▄▄▖▐▌ ▐▌
+//                                                    
+//                                                    
+//            
 // ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
        
 
@@ -26,22 +33,139 @@
 &mt {
   quick-tap-ms = <100>;
   flavor = "tap-preferred";
-  tapping-term-ms = <170>;
+  tapping-term-ms = <250>;
 };
 
 / {
      combos {
             compatible = "zmk,combos";
+            // Combo recipe:
+            // 1. Pick a unique name.
+            // 2. Find the physical key positions from the bindings list below.
+            // 3. Set bindings to the output you want.
+            // 4. Optionally restrict the combo to one or more layers.
             combo_esc {
                 timeout-ms = <50>;
                 key-positions = <0 1>;
                 bindings = <&kp ESC>;
             };
+            // W + K -> Q on the base layer.
+            // Position 1 is the second key on the left half top row.
+            // Position 26 is the second key on the right half bottom row.
+            combo_q_from_w_k {
+                // Both keys must be pressed within this window.
+                timeout-ms = <50>;
+                // Use physical positions, not keycodes.
+                key-positions = <1 24>;
+                // Limit this combo to the base layer only.
+                layers = <BASE>;
+                // Send Q when the combo is detected.
+                bindings = <&kp Q>;
+            };
+
+            combo_z_from_d_s {
+                timeout-ms = <50>;
+                key-positions = <7 18>;
+                layers = <BASE>;
+                bindings = <&kp Z>;
+            };
+
+            combo_semicolon_from_comma_dot {
+                timeout-ms = <50>;
+                key-positions = <14 15>;
+                layers = <BASE>;
+                bindings = <&kp SEMI>;
+            };
+
             combo_tvp {
                 timeout-ms = <100>;
                 key-positions = <11 12 13>;
                 bindings = <&tog TVP1>;
             };
+
+
+
+
+    };
+
+    behaviors {
+        tdA: tap_dance_A {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&mt LSHFT A>, <&kp AT>;
+        };
+
+        tdS: tap_dance_S {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&mt RALT S>, <&kp DOLLAR>;
+        };
+
+        tdLBR: tap_dance_left_Braces {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp LEFT_BRACE>, <&kp LEFT_BRACKET>, <&kp LEFT_PARENTHESIS>, <&kp LESS_THAN>;
+        };
+
+        tdRBR: tap_dance_right_Braces {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp RIGHT_BRACE>, <&kp RIGHT_BRACKET>, <&kp RIGHT_PARENTHESIS>, <&kp GREATER_THAN>;
+        };
+
+        tdDot: tap_dance_dot {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp DOT>, <&kp EXCL>, <&kp QUESTION>;
+        };
+
+        tdComma: tap_dance_comma {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp COMMA>, <&kp SEMI>;
+        };
+
+        tdMinus: tap_dance_minus {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp MINUS>, <&kp UNDERSCORE>, <&kp EQUAL>;
+        };
+
+        tdQuote: tap_dance_quote {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp SQT>, <&kp DQT>, <&kp GRAVE>;
+        };
+
+        tdE: tap_dance_E {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&mt LCTRL E>, <&kp END>;
+        };
+
+        tdSlash: tap_dance_slash {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp PIPE>, <&kp BSLH>, <&kp FSLH>;
+        };
+
+        tdPlus: tap_dance_plus {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp PLUS>, <&kp STAR>;
+        };
+
     };
 
     macros {
@@ -55,6 +179,13 @@
                 , <&macro_tap &kp G &kp I &kp F>
                 ;
         };
+
+        copy: copy {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_tap &kp LC(C)>;
+        };
     };
 
         keymap {
@@ -66,21 +197,21 @@
 display-name= "BASE"                              ;
 // ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 //             ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓   ┏━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┳━━━━━━━━━━━┓
-//             ┃     Q     ┃     W     ┃     F     ┃     P     ┃     G     ┃   ┃     J     ┃     L     ┃     U     ┃     Y     ┃     ;     ┃
+//             ┃     B     ┃     Y     ┃     O     ┃     U     ┃     {     ┃   ┃     }     ┃     L     ┃     D     ┃     W     ┃     V     ┃
 //             ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫
-//             ┃     A     ┃     R     ┃     S     ┃     T     ┃     D     ┃   ┃     H     ┃     N     ┃     E     ┃     I     ┃     O     ┃
+//             ┃     C     ┃     I     ┃     E     ┃     A     ┃     ,     ┃   ┃     .     ┃     H     ┃     T     ┃     S     ┃     N     ┃
 // ┏━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┓
-// ┃     Q     ┃     Z     ┃     X     ┃     C     ┃     V     ┃     B     ┃   ┃     K     ┃     M     ┃     ,     ┃     .     ┃     /     ┃     \     ┃
+// ┃  LSHFT    ┃     G     ┃     X     ┃     J     ┃     K     ┃     -     ┃   ┃     "     ┃     R     ┃     M     ┃     F     ┃     P     ┃   RSHFT   ┃
 // ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┫   ┣━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━╋━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
 //                                     ┃    DEL    ┃    TAB    ┃    SPC    ┃   ┃   ENTER   ┃           ┃   BSPC    ┃
 //                                     ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛   ┗━━━━━━━━━━━┻━━━━━━━━━━━┻━━━━━━━━━━━┛
  bindings = <
 // ╷           ╷           ╷           ╷           ╷           ╷           ╷   ╷           ╷           ╷           ╷           ╷           ╷           ╷
 
-                &kp Q       &kp W       &kp F       &kp P       &kp G           &kp J       &kp L       &kp U       &kp Y       &kp SEMI
-                &mt LGUI A  &mt LALT R  &mt LCTRL S &mt LSHFT T &kp D           &kp H       &mt RSHFT N &mt RCTRL E &mt RALT I  &mt RGUI O
-    &kp Q       &kp Z       &kp X       &kp C       &kp V       &kp B           &kp K       &kp M       &kp COMMA   &kp DOT     &kp FSLH    &kp BSLH
-                                        &kp DEL   &lt NAV TAB   &kp SPACE       &kp RET   &lt SYM ESC   &kp BSPC
+                &kp B       &kp Y       &kp O       &kp U       &tdLBR          &tdRBR     &kp L       &kp D       &kp W       &kp V
+                &mt LGUI C  &mt LALT I  &tdE        &tdA        &tdComma        &tdDot     &mt RSHFT H &mt RCTRL T &tdS  &mt RGUI N
+    &tdSlash    &kp G       &kp X       &kp J       &kp K       &tdMinus        &tdQuote   &kp R       &kp M       &kp F       &kp P    &tdPlus
+                                        &kp DEL     &lt NAV TAB   &kp SPACE     &kp RET    &lt SYM ESC   &kp BSPC
                         >;
                 };
 
